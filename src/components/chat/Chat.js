@@ -1,11 +1,8 @@
-import React from 'react'
+import React from 'react';
+import {ChatContainer} from "./chat.styles"
 
 const Chat = () => {
-  return (
-    <div>
-      I am the chat component
-    </div>
-  )
+  return <ChatContainer>I am the chat component</ChatContainer>;
 }
 
 export default Chat
