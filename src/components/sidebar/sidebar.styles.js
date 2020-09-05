@@ -55,3 +55,9 @@ export const SidebarSearchInput = styled.input`
   outline-width: 0;
   width: 80%;
 `;
+
+export const SidebarChatSection = styled.div`
+  background-color: #fff;
+  overflow: scroll;
+  flex: 1
+`;

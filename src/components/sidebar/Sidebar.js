@@ -6,7 +6,9 @@ import {
   SidebarSearchContainer,
   SidebarSearch,
   SidebarSearchInput,
+  SidebarChatSection,
 } from "./sidebar.styles";
+import SidebarChat from "../siderbarchat/SidebarChat";
 import ChatIcon from "@material-ui/icons/Chat";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -42,6 +44,12 @@ const Sidebar = () => {
           />
         </SidebarSearch>
       </SidebarSearchContainer>
+
+      <SidebarChatSection>
+        <SidebarChat />
+        <SidebarChat />
+        <SidebarChat />
+      </SidebarChatSection>
     </SidebarContainer>
   );
 };
