@@ -1,10 +1,15 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import Sidebar from "./components/sidebar/Sidebar";
+import Chat from "./components/chat/Chat";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Whatsapp-Mern</h1>
+    <div className="app">
+      <div className="app-body">
+        <Sidebar />
+        <Chat />
+      </div>
     </div>
   );
 }
