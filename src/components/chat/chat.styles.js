@@ -31,3 +31,70 @@ export const ChatIconContainer = styled.div`
   display: flex;
   align-content: center;
 `;
+
+export const ChatBody = styled.div`
+  flex: 1;
+  background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+  background-repeat: repeat;
+  background-position: center;
+  padding: 30px;
+  overflow: scroll;
+`;
+
+export const ChatMessage = styled.p`
+  font-size: 16px;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 10px;
+  position: relative;
+  background-color: #fff;
+  margin-bottom: 30px;
+`;
+
+export const ChatName = styled.span`
+  font-size: xx-small;
+  position: absolute;
+  top: -15px;
+  font-weight: 500;
+`;
+
+export const ChatTimeStamp = styled.span`
+  font-size: xx-small;
+  color: gray;
+  margin-left: 10px;
+`;
+
+export const ChatReceiver = styled(ChatMessage)`
+  margin-left: auto;
+  background-color: #dcf8c6;
+`;
+
+export const ChatFooterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 62px;
+  justify-content: space-between;
+  border-top: 1px solid lightgray;
+
+  > .MuiSvgIcon-root {
+    color: gray;
+    padding: 10px;
+  }
+`;
+
+export const FormContainer = styled.form`
+  flex: 1;
+  display: flex;
+`;
+
+export const FormInput = styled.input`
+  flex: 1;
+  border-radius: 20px;
+  border: none;
+  outline-width: 0;
+  padding: 10px;
+`;
+
+export const FormButton = styled.button`
+  display: none;
+`;
