@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ChatContainer,
   ChatHeader,
@@ -21,10 +21,26 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { SearchOutlined } from "@material-ui/icons";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import MicNoneIcon from "@material-ui/icons/MicNone";
+import { useParams } from "react-router-dom";
 import axios from "../../axios";
+import db from "../../firebase/firebase";
 
 const Chat = ({ messages }) => {
   const [input, setInput] = useState("");
+  const [roomName, setRoomName] = useState("");
+  const { roomId } = useParams();
+
+
+
+  useEffect(() => {
+    if (roomId) {
+      db.collection("rooms")
+        .doc(roomId)
+        .onSnapshot((snapshot) => setRoomName(snapshot.data().name));
+    }
+  }, [roomId]);
+
+  console.log(roomId);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -49,7 +65,7 @@ const Chat = ({ messages }) => {
         <Avatar />
 
         <ChatInfoContainer>
-          <ChatInfoName>Room Name</ChatInfoName>
+          <ChatInfoName>{roomName}</ChatInfoName>
           <ChatInfoTimeStamp>Last seen ...</ChatInfoTimeStamp>
         </ChatInfoContainer>
 
@@ -69,13 +85,11 @@ const Chat = ({ messages }) => {
       </ChatHeader>
 
       <ChatBody>
-        {messages.map((message) => (
-          <ChatMessage key={message._id} received={message.received}>
-            <ChatName>{message.name}</ChatName>
-            {message.message}
-            <ChatTimeStamp>{new Date().toUTCString()}</ChatTimeStamp>
-          </ChatMessage>
-        ))}
+        <ChatMessage received={false}>
+          <ChatName>Seun</ChatName>
+          This is a test message
+          <ChatTimeStamp>{new Date().toUTCString()}</ChatTimeStamp>
+        </ChatMessage>
 
         {/* <ChatReceiver>
           <ChatName>Me</ChatName>
