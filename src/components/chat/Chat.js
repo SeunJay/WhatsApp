@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ChatContainer,
   ChatHeader,
@@ -10,7 +10,6 @@ import {
   ChatMessage,
   ChatName,
   ChatTimeStamp,
-  ChatReceiver,
   ChatFooterContainer,
   FormContainer,
   FormInput,
@@ -22,8 +21,28 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { SearchOutlined } from "@material-ui/icons";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import MicNoneIcon from "@material-ui/icons/MicNone";
+import axios from "../../axios";
 
-const Chat = () => {
+const Chat = ({ messages }) => {
+  const [input, setInput] = useState("");
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    await axios.post("/api/v1/messages/new", {
+      message: input,
+      name: "ME",
+      timestamp: "JUST NOW!",
+      received: false,
+    });
+
+    setInput("");
+  };
+
+  const handleChange = (e) => {
+    setInput(e.target.value);
+  };
+
   return (
     <ChatContainer>
       <ChatHeader>
@@ -50,25 +69,32 @@ const Chat = () => {
       </ChatHeader>
 
       <ChatBody>
-        <ChatMessage>
-          <ChatName>Seun</ChatName>
-          This is a Message
-          <ChatTimeStamp>{new Date().toUTCString()}</ChatTimeStamp>
-        </ChatMessage>
+        {messages.map((message) => (
+          <ChatMessage key={message._id} received={message.received}>
+            <ChatName>{message.name}</ChatName>
+            {message.message}
+            <ChatTimeStamp>{new Date().toUTCString()}</ChatTimeStamp>
+          </ChatMessage>
+        ))}
 
-        <ChatReceiver>
+        {/* <ChatReceiver>
           <ChatName>Me</ChatName>
           This is a Message
           <ChatTimeStamp>{new Date().toUTCString()}</ChatTimeStamp>
-        </ChatReceiver>
+        </ChatReceiver> */}
       </ChatBody>
 
       <ChatFooterContainer>
         <InsertEmoticonIcon />
 
         <FormContainer>
-          <FormInput type="text" placeholder="Type a message" />
-          <FormButton>Send a message</FormButton>
+          <FormInput
+            onChange={handleChange}
+            value={input}
+            type="text"
+            placeholder="Type a message"
+          />
+          <FormButton onClick={sendMessage}>Send a message</FormButton>
         </FormContainer>
         <MicNoneIcon />
       </ChatFooterContainer>

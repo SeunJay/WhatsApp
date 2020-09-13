@@ -47,8 +47,9 @@ export const ChatMessage = styled.p`
   width: fit-content;
   border-radius: 10px;
   position: relative;
-  background-color: #fff;
+  background-color: ${({ received }) => (received ? "#fff" : "#dcf8c6")};
   margin-bottom: 30px;
+  margin-left: ${({ received }) => (received ? "auto" : "0px")};
 `;
 
 export const ChatName = styled.span`
