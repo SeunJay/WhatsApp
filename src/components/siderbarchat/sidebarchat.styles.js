@@ -4,7 +4,7 @@ export const SidebarChatContainer = styled.div`
   display: flex;
   align-content: center;
   padding: 20px;
-  cursor: pointer;
+  cursor: pointer; 
   border-bottom: 1px solid #f6f6f6;
 
   &:hover {
