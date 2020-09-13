@@ -6,9 +6,9 @@ import {
   ChatMessage,
 } from "./sidebarchat.styles";
 import { Avatar } from "@material-ui/core";
+import db from "../../firebase/firebase";
 
-
-const SidebarChat = ({ addNewChat }) => {
+const SidebarChat = ({ id, name, addNewChat }) => {
   const [seed, setSeed] = useState("");
 
   useEffect(() => {
@@ -19,7 +19,9 @@ const SidebarChat = ({ addNewChat }) => {
   const createChat = () => {
     const roomName = prompt("Please, enter a name for the chat room");
     if (roomName) {
-      alert(`The newly created chat name is ${roomName}`);
+      db.collection("rooms").add({
+        name: roomName,
+      });
       console.log(roomName);
     }
   };
@@ -28,7 +30,7 @@ const SidebarChat = ({ addNewChat }) => {
     <SidebarChatContainer>
       <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
       <SidebarChatInfo>
-        <ChatInfoName>Room Name</ChatInfoName>
+        <ChatInfoName>{name}</ChatInfoName>
         <ChatMessage>This is the last message</ChatMessage>
       </SidebarChatInfo>
     </SidebarChatContainer>
