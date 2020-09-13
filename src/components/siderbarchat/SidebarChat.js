@@ -7,7 +7,8 @@ import {
 } from "./sidebarchat.styles";
 import { Avatar } from "@material-ui/core";
 
-const SidebarChat = () => {
+
+const SidebarChat = ({ addNewChat }) => {
   const [seed, setSeed] = useState("");
 
   useEffect(() => {
@@ -15,13 +16,25 @@ const SidebarChat = () => {
     setSeed(randomNumer);
   }, []);
 
-  return (
+  const createChat = () => {
+    const roomName = prompt("Please, enter a name for the chat room");
+    if (roomName) {
+      alert(`The newly created chat name is ${roomName}`);
+      console.log(roomName);
+    }
+  };
+
+  return !addNewChat ? (
     <SidebarChatContainer>
       <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
       <SidebarChatInfo>
         <ChatInfoName>Room Name</ChatInfoName>
         <ChatMessage>This is the last message</ChatMessage>
       </SidebarChatInfo>
+    </SidebarChatContainer>
+  ) : (
+    <SidebarChatContainer onClick={createChat}>
+      <h2>Add New Chat</h2>
     </SidebarChatContainer>
   );
 };
