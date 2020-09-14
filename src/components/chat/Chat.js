@@ -30,7 +30,7 @@ const Chat = () => {
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
   const { roomId } = useParams();
 
   useEffect(() => {
@@ -74,7 +74,12 @@ const Chat = () => {
 
         <ChatInfoContainer>
           <ChatInfoName>{roomName}</ChatInfoName>
-          <ChatInfoTimeStamp>Last seen ...</ChatInfoTimeStamp>
+          <ChatInfoTimeStamp>
+            last seen{" "}
+            {new Date(
+              messages[messages.length - 1]?.timestamp?.toDate()
+            ).toUTCString()}
+          </ChatInfoTimeStamp>
         </ChatInfoContainer>
 
         <ChatIconContainer>
