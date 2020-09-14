@@ -23,7 +23,7 @@ const SidebarChat = ({ id, name, addNewChat }) => {
       db.collection("rooms")
         .doc(id)
         .collection("messages")
-        .orderBy("timestamp", "desc")
+        .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) =>
           setMessages(snapshot.docs.map((doc) => doc.data()))
         );
@@ -32,11 +32,13 @@ const SidebarChat = ({ id, name, addNewChat }) => {
 
   const createChat = () => {
     const roomName = prompt("Please, enter a name for the chat room");
-    if (roomName) {
-      db.collection("rooms").add({
-        name: roomName,
-      });
+    if (!roomName) {
+      alert("No name for chat room entered!");
     }
+
+    db.collection("rooms").add({
+      name: roomName,
+    });
   };
 
   return !addNewChat ? (
@@ -45,7 +47,7 @@ const SidebarChat = ({ id, name, addNewChat }) => {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <SidebarChatInfo>
           <ChatInfoName>{name}</ChatInfoName>
-          <ChatMessage>{messages[0]?.message}</ChatMessage>
+          <ChatMessage>{messages[messages.length - 1]?.message}</ChatMessage>
         </SidebarChatInfo>
       </SidebarChatContainer>
     </Link>
