@@ -12,7 +12,7 @@ import { actionTypes } from "../reducer";
 import { Button } from "@material-ui/core";
 
 const Login = () => {
-  const [dispatch] = useStateValue();
+  const [{}, dispatch] = useStateValue();
 
   const signIn = async () => {
     try {
@@ -27,7 +27,10 @@ const Login = () => {
   return (
     <Container>
       <LoginFrame>
-        <Image src="https://upload.wikimedia.org/wikipedia.jpg" alt="" />
+        <Image
+          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+          alt=""
+        />
 
         <TextFrame>
           <LoginText>Sign in to WhatsApp</LoginText>
