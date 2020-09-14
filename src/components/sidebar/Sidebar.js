@@ -14,10 +14,12 @@ import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { SearchOutlined } from "@material-ui/icons";
 import { Avatar, IconButton } from "@material-ui/core";
+import { useStateValue } from "../context/StateProvider";
 import db from "../../firebase/firebase";
 
 const Sidebar = () => {
   const [rooms, setRooms] = useState([]);
+    const [{user}] = useStateValue();
 
   useEffect(() => {
     const unsubscribe = db.collection("rooms").onSnapshot((snapshot) => {
@@ -36,7 +38,7 @@ const Sidebar = () => {
   return (
     <SidebarContainer>
       <SidebarHeader>
-        <Avatar />
+        <Avatar src={user?.photoURL} />
         <SidebarHeaderRight>
           <IconButton>
             <DonutLargeIcon />
