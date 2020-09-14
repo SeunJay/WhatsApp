@@ -11,12 +11,24 @@ import db from "../../firebase/firebase";
 
 const SidebarChat = ({ id, name, addNewChat }) => {
   const [seed, setSeed] = useState("");
-
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const randomNumer = Math.floor(Math.random() * 5000);
     setSeed(randomNumer);
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      db.collection("rooms")
+        .doc(id)
+        .collection("messages")
+        .orderBy("timestamp", "desc")
+        .onSnapshot((snapshot) =>
+          setMessages(snapshot.docs.map((doc) => doc.data()))
+        );
+    }
+  }, [id]);
 
   const createChat = () => {
     const roomName = prompt("Please, enter a name for the chat room");
@@ -24,17 +36,16 @@ const SidebarChat = ({ id, name, addNewChat }) => {
       db.collection("rooms").add({
         name: roomName,
       });
-      console.log(roomName);
     }
   };
 
   return !addNewChat ? (
-    <Link to={`/rooms/${id}`}>
+    <Link to={`/rooms/${id}`} style={{ textDecoration: "none", color: "#000" }}>
       <SidebarChatContainer>
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <SidebarChatInfo>
           <ChatInfoName>{name}</ChatInfoName>
-          <ChatMessage>This is the last message</ChatMessage>
+          <ChatMessage>{messages[0]?.message}</ChatMessage>
         </SidebarChatInfo>
       </SidebarChatContainer>
     </Link>

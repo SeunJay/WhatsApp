@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Container,
   LoginFrame,
@@ -12,7 +12,7 @@ import { actionTypes } from "../reducer";
 import { Button } from "@material-ui/core";
 
 const Login = () => {
-  const [{}, dispatch] = useStateValue();
+  const [dispatch] = useStateValue();
 
   const signIn = async () => {
     try {
