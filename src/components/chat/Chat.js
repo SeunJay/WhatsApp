@@ -22,21 +22,30 @@ import { SearchOutlined } from "@material-ui/icons";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import MicNoneIcon from "@material-ui/icons/MicNone";
 import { useParams } from "react-router-dom";
-import axios from "../../axios";
+import { useStateValue } from "../context/StateProvider";
 import db from "../../firebase/firebase";
+import firebase from "firebase";
 
-const Chat = ({ messages }) => {
+const Chat = () => {
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [{ user }, dispatch] = useStateValue();
   const { roomId } = useParams();
-
-
 
   useEffect(() => {
     if (roomId) {
       db.collection("rooms")
         .doc(roomId)
         .onSnapshot((snapshot) => setRoomName(snapshot.data().name));
+
+      db.collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .orderBy("timestamp", "asc")
+        .onSnapshot((snapshot) =>
+          setMessages(snapshot.docs.map((doc) => doc.data()))
+        );
     }
   }, [roomId]);
 
@@ -45,11 +54,10 @@ const Chat = ({ messages }) => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    await axios.post("/api/v1/messages/new", {
+    db.collection("rooms").doc(roomId).collection("messages").add({
+      name: user.displayName,
       message: input,
-      name: "ME",
-      timestamp: "JUST NOW!",
-      received: false,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
     setInput("");
@@ -85,11 +93,15 @@ const Chat = ({ messages }) => {
       </ChatHeader>
 
       <ChatBody>
-        <ChatMessage received={false}>
-          <ChatName>Seun</ChatName>
-          This is a test message
-          <ChatTimeStamp>{new Date().toUTCString()}</ChatTimeStamp>
-        </ChatMessage>
+        {messages.map((message) => (
+          <ChatMessage received={message.name !== user.displayName}>
+            <ChatName>{message.name}</ChatName>
+            {message.message}
+            <ChatTimeStamp>
+              {new Date(message.timestamp?.toDate()).toUTCString()}
+            </ChatTimeStamp>
+          </ChatMessage>
+        ))}
 
         {/* <ChatReceiver>
           <ChatName>Me</ChatName>
