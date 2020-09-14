@@ -24,6 +24,7 @@ import MicNoneIcon from "@material-ui/icons/MicNone";
 import { useParams } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import db from "../../firebase/firebase";
+import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase";
 
 const Chat = () => {
@@ -48,8 +49,6 @@ const Chat = () => {
         );
     }
   }, [roomId]);
-
-  console.log(roomId);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -99,7 +98,7 @@ const Chat = () => {
 
       <ChatBody>
         {messages.map((message) => (
-          <ChatMessage received={message.name !== user.displayName}>
+          <ChatMessage key={uuidv4()} received={message.name !== user.displayName}>
             <ChatName>{message.name}</ChatName>
             {message.message}
             <ChatTimeStamp>
@@ -107,12 +106,6 @@ const Chat = () => {
             </ChatTimeStamp>
           </ChatMessage>
         ))}
-
-        {/* <ChatReceiver>
-          <ChatName>Me</ChatName>
-          This is a Message
-          <ChatTimeStamp>{new Date().toUTCString()}</ChatTimeStamp>
-        </ChatReceiver> */}
       </ChatBody>
 
       <ChatFooterContainer>
